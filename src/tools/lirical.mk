@@ -24,10 +24,11 @@ install-lirical:
 
 
 # Run LIRICAL
+run-lirical: VENV_NAME=lirical
 run-lirical: venv
 	$(PIP) install pheval.lirical
 	mkdir -p $(RESULTS_DIR)/$(LIRICAL_NAME)-2309/phenopacket_store_0.1.11_variants
-	$(VENV_NAME)/bin/pheval run --input-dir "$(LIRICAL_DIR)/2309" \
+	$(VENV_BASE)/$(VENV_NAME)/bin/pheval run --input-dir "$(LIRICAL_DIR)/2309" \
 		--testdata-dir "$(CORPORA_DIR)/phenopacket_store_0.1.11_variants" \
 		--output-dir "$(RESULTS_DIR)/$(LIRICAL_NAME)-2309/phenopacket_store_0.1.11_variants" \
 		--runner liricalphevalrunner --version $(LIRICAL_VERSION)

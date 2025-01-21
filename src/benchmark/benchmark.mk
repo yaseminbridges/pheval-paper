@@ -1,10 +1,11 @@
 
-PHEVAL_UTILS := $(VENV_NAME)/bin/pheval-utils
+PHEVAL_UTILS := $(VENV_BASE)/$(VENV_NAME)/bin/pheval-utils
 
 # Default target
 #all: run-variant-benchmarks run-structural-variant-benchmarks run-phenotype-only-benchmarks
 
 ## Install pheval and dependencies in a virtual environment
+install-pheval: VENV_NAME=pheval
 install-pheval: venv 
 	$(PIP) install pheval
 

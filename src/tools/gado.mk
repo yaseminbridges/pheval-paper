@@ -19,10 +19,11 @@ install-gado:
 	@echo "Installed $(GADO_NAME) in $(GADO_DIR)"
 
 # Run GADO
+run-gado: VENV_NAME=gado
 run-gado: venv
 	$(PIP) install pheval.gado
 	mkdir -p $(RESULTS_DIR)/$(GADO_NAME)/phenopacket_store_0.1.11_phenotypes
-	$(VENV_NAME)/bin/pheval run --input-dir "$(GADO_DIR)" \
+	$(VENV_BASE)/$(VENV_NAME)/bin/pheval run --input-dir "$(GADO_DIR)" \
 		--testdata-dir "$(CORPORA_DIR)/phenopacket_store_0.1.11_phenotypes" \
 		--output-dir "$(RESULTS_DIR)/$(GADO_NAME)/phenopacket_store_0.1.11_phenotypes" \
 		--runner gadophevalrunner --version $(GADO_VERSION)

@@ -3,10 +3,10 @@
 .DEFAULT_GOAL := help
 
 CWD := $(shell pwd)
-VENV_NAME := $(CWD)/.venv
-PYTHON := $(VENV_NAME)/bin/python
-PIP := $(VENV_NAME)/bin/pip
-PHEVAL_UTILS := $(VENV_NAME)/bin/pheval-utils
+VENV_BASE := $(CWD)/.venv
+PYTHON := $(VENV_BASE)/$(VENV_NAME)/bin/python
+PIP = $(VENV_BASE)/$(VENV_NAME)/bin/pip
+PHEVAL_UTILS = $(VENV_BASE)/$(VENV_NAME)/bin/pheval-utils
 TARGET := $(CWD)/target
 CORPORA_DIR := $(TARGET)/corpora
 CONFIG_DIR := $(TARGET)/configurations
@@ -33,7 +33,13 @@ all:
 
 # Virtual environment setup
 venv:
-	python3 -m venv $(VENV_NAME)
+	@if [ -z "$(VENV_NAME)" ]; then \
+		echo "Error: Please specify VENV_NAME when calling venv"; \
+		exit 1; \
+	fi
+	python3 -m venv $(VENV_BASE)/$(VENV_NAME)
+	$(PIP) install --upgrade pip
+	@echo "Virtual environment created at $(VENV_BASE)/$(VENV_NAME)"
 
 install-corpora: download-pheval-paper-corpora install-pheval-paper-corpora
 

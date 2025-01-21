@@ -25,24 +25,25 @@ install-exomiser:
 	cp src/tools/configs/exomiser-phenotype-config.yaml $(EXOMISER_DIR)/2406/phenotype/config.yaml
 	@echo "Installed $(EXOMISER_NAME) in $(EXOMISER_DIR)"
 
-# Run Exomiser - this could be split into three separate targets to run in parallel on an HPC 
+# Run Exomiser - this could be split into three separate targets to run in parallel on an HPC
+run-exomiser: VENV_NAME=exomiser
 run-exomiser: venv
 	$(PIP) install pheval.exomiser
 	# analyse variants corpus
 	mkdir -p $(RESULTS_DIR)/$(EXOMISER_NAME)-2406/phenopacket_store_0.1.11_variants
-	$(VENV_NAME)/bin/pheval run --input-dir "$(EXOMISER_DIR)/2406/variants" \
+	$(VENV_BASE)/$(VENV_NAME)/bin/pheval run --input-dir "$(EXOMISER_DIR)/2406/variants" \
 		--testdata-dir "$(CORPORA_DIR)/phenopacket_store_0.1.11_variants" \
 		--output-dir "$(RESULTS_DIR)/$(EXOMISER_NAME)-2406/phenopacket_store_0.1.11_variants" \
 		--runner exomiserphevalrunner --version $(EXOMISER_VERSION)
 	# analyse phenotype only corpus	
 	mkdir -p $(RESULTS_DIR)/$(EXOMISER_NAME)-2406/phenopacket_store_0.1.11_phenotypes
-	$(VENV_NAME)/bin/pheval run --input-dir "$(EXOMISER_DIR)/2406/phenotype" \
+	$(VENV_BASE)/$(VENV_NAME)/bin/pheval run --input-dir "$(EXOMISER_DIR)/2406/phenotype" \
 		--testdata-dir "$(CORPORA_DIR)/phenopacket_store_0.1.11_phenotypes" \
 		--output-dir "$(RESULTS_DIR)/$(EXOMISER_NAME)-2406/phenopacket_store_0.1.11_phenotypes" \
 		--runner exomiserphevalrunner --version $(EXOMISER_VERSION)
 	# analyse SV corpus	
 	mkdir -p $(RESULTS_DIR)/$(EXOMISER_NAME)-2406/structural_variants
-	$(VENV_NAME)/bin/pheval run --input-dir "$(EXOMISER_DIR)/2406/variants" \
+	$(VENV_BASE)/$(VENV_NAME)/bin/pheval run --input-dir "$(EXOMISER_DIR)/2406/variants" \
 		--testdata-dir "$(CORPORA_DIR)/structural_variants" \
 		--output-dir "$(RESULTS_DIR)/$(EXOMISER_NAME)-2406/structural_variants" \
 		--runner exomiserphevalrunner --version $(EXOMISER_VERSION)
